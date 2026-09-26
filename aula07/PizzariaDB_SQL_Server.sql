@@ -47,3 +47,18 @@ BEGIN
 	SET @novoId = SCOPE_IDENTITY();
 END;
 GO
+
+USE PizzariaDB;
+GO
+
+-- Declaração de variável
+DECLARE @idGerado INT;
+
+-- Chamada da Storage Procedure
+EXEC sp_CadastrarCliente
+	@nome = 'Felipe Marins',
+	@telefone = '11988888888',
+	@endereco = 'Rua que sobe e desce que ninguém conhece, 999',
+	@novoId = @idGerado OUT;
+
+SELECT * FROM Clientes;

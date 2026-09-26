@@ -1,0 +1,25 @@
+USE tempdb;
+GO
+
+CREATE TABLE Contas
+(
+	id INT PRIMARY KEY,
+	saldo DECIMAL(10,2) CHECK (saldo >= 0)
+);
+GO
+
+INSERT INTO Contas VALUES
+(1, 1000.00),
+(2, 500.00);
+GO
+
+-- EXEMPLO DE TRANSAÇÃO
+BEGIN TRANSACTION;
+	UPDATE Contas SET saldo = saldo - 200 WHERE id = 1;
+
+	-- FORÇANDO ERRO
+	UPDATE Contas SET saldo = saldo - 800 WHERE id = 2;
+ROLLBACK TRANSACTION;
+GO
+-- VISUALIZAÇÃO DO RESULTADO
+SELECT * FROM Contas;

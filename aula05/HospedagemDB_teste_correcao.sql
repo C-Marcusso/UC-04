@@ -1,0 +1,33 @@
+CREATE DATABASE HospedagemDB_teste_correcao;
+GO
+
+USE HospedagemDB_teste_correcao;
+GO
+
+CREATE TABLE Clientes
+(
+	id INTEGER IDENTITY(1,1) CONSTRAINT PK_Clientes PRIMARY KEY,
+	nome VARCHAR(100) NOT NULL,
+	rg VARCHAR(20) NOT NULL CONSTRAINT UQ_Clientes_RG UNIQUE,
+);
+GO
+
+CREATE TABLE Chales
+(
+	id INTEGER IDENTITY(1,1) CONSTRAINT PK_Chales PRIMARY KEY,
+	localizacao VARCHAR(100) NOT NULL,
+	capacidade INTEGER NOT NULL CONSTRAINT CK_Chales_Capacidade CHECK (capacidade > 0),
+	valor_diaria DECIMAL(10,2) NOT NULL CONSTRAINT CK_Chales_ValorDiaria CHECK(valor_diaria > 0)
+);
+GO
+
+CREATE TABLE Hospedagem
+(
+	id INTEGER IDENTITY(1,1) CONSTRAINT PK_Hospedagens PRIMARY KEY,
+	cliente_id INTEGER NOT NULL CONSTRAINT FK_Hosp_Clientes FOREIGN KEY REFERENCES Clientes (id),
+	chale_id INTEGER NOT NULL CONSTRAINT FK_Hosp_Chales FOREIGN KEY REFERENCES Chales (id),
+	data_inicio DATETIME NOT NULL,
+	data_fim DATETIME NOT NULL,
+	desconto DECIMAL (5,2) DEFAULT 0.00, -- DESCONTO NÃO SER MENOR QUE ZERO E MAIOR QUE 100
+);
+GO
